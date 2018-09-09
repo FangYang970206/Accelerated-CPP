@@ -29,7 +29,9 @@ int main()
     sort(students.begin(), students.end(), compare);
     for(vector<Student_info>::size_type i = 0; i != students.size(); i++)
     {   
-        cout << setw(max_len+1) << students[i].name;
+        string::size_type len = max_len - students[i].name.size();
+        string spaces(len, ' ');
+        cout << spaces+students[i].name;
         cout << ": ";
         try{
             double final_grade = students[i].final_grade;

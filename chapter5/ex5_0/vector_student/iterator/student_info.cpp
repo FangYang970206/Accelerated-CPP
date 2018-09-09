@@ -3,7 +3,6 @@
 
 
 using std::vector; using std::istream;
-using std::string;
 
 bool compare(const Student_info& s1, const Student_info& s2)
 {
@@ -25,12 +24,25 @@ istream& read_hw(istream& in, vector<double>& hw)
 }
 
 istream& read(istream& is , Student_info& s)
-{   
-    static string name;
-    static double midterm, final;
-    static vector<double> hw;
-    is >> s.name >> midterm >> final;
-    read_hw(is, hw);
-    s.final_grade = grade(midterm, final, hw);
+{
+    is >> s.name >> s.midterm >> s.final;
+    read_hw(is, s.homework);
     return is;
+}
+
+vector<Student_info> extract_fails(vector<Student_info>& students)
+{
+    vector<Student_info> fails;
+    vector<Student_info>::iterator it = students.begin();
+    while(it != students.end())
+    {
+        if(fgrade(*it)){
+            fails.push_back(*it);
+            it = students.erase(it);
+        }else{
+            it++;
+        }
+    }
+    
+    return fails;
 }
