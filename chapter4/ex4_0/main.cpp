@@ -30,12 +30,12 @@ int main()
     for(vector<Student_info>::size_type i = 0; i != students.size(); i++)
     {   
         cout << setw(max_len+1) << students[i].name;
-
+        cout << ": ";
         try{
             double final_grade = grade(students[i]);
             streamsize prec = cout.precision();
             cout << setprecision(3) << final_grade 
-                 << setprecision(prec);
+                 << setprecision(prec) << endl;
         }catch (domain_error e){
             cout << e.what();
         }

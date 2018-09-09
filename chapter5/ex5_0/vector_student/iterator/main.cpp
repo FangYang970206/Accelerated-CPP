@@ -17,7 +17,7 @@ using std::setw;
 
 int main()
 {
-    vector<Student_info> students;
+    vector<Student_info> students, fails;
     Student_info record;
     string::size_type max_len = 0;
 
@@ -27,12 +27,14 @@ int main()
         students.push_back(record);
     }
     sort(students.begin(), students.end(), compare);
+    fails = extract_fails(students);
+    cout << "students final grade > 60: " << endl;
     for(vector<Student_info>::size_type i = 0; i != students.size(); i++)
     {   
-        cout << setw(max_len+1) << students[i].name;
+        cout << setw(max_len) << students[i].name;
         cout << ": ";
         try{
-            double final_grade = students[i].final_grade;
+            double final_grade = grade(students[i]);
             streamsize prec = cout.precision();
             cout << setprecision(3) << final_grade 
                  << setprecision(prec) << endl;
@@ -40,6 +42,21 @@ int main()
             cout << e.what();
         }
     }
+    cout << "students final grade < 60: " << endl;
+    for(vector<Student_info>::size_type i = 0; i != fails.size(); i++)
+    {   
+        cout << setw(max_len) << fails[i].name;
+        cout << ": ";
+        try{
+            double final_grade = grade(fails[i]);
+            streamsize prec = cout.precision();
+            cout << setprecision(3) << final_grade 
+                 << setprecision(prec) << endl;
+        }catch (domain_error e){
+            cout << e.what();
+        }
+    }
+
     system("pause");
     return 0;
 }
